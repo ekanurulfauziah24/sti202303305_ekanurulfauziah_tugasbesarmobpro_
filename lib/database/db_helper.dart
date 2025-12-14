@@ -14,13 +14,15 @@ class DBHelper {
   }
 
   Future<Database> _initDB() async {
-    String dbPath = await getDatabasesPath();
-    String path = join(dbPath, "wisata.db");
-
+    final path = join(await getDatabasesPath(), 'wisata.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _createDB,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        await db.execute('DROP TABLE IF EXISTS wisata');
+        await _createDB(db, newVersion);
+      },
     );
   }
 
@@ -29,12 +31,19 @@ class DBHelper {
       CREATE TABLE wisata (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nama TEXT,
+        lokasi TEXT,
         deskripsi TEXT,
-        image TEXT,
-        lat REAL,
-        lng REAL
+        jamBuka TEXT,
+        fotoPath TEXT,
+        latitude REAL,
+        longitude REAL
       )
     ''');
+  }
+
+  Future<int> insertWisata(Map<String, dynamic> data) async {
+    final db = await database;
+    return await db.insert('wisata', data);
   }
 
   Future<List<Map<String, dynamic>>> getAllWisata() async {
@@ -42,8 +51,12 @@ class DBHelper {
     return await db.query('wisata');
   }
 
-  Future<int> insertWisata(Map<String, dynamic> data) async {
+  Future<int> deleteWisata(int id) async {
     final db = await database;
-    return await db.insert('wisata', data);
+    return await db.delete(
+      'wisata',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

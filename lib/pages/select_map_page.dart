@@ -9,34 +9,38 @@ class SelectMapPage extends StatefulWidget {
 }
 
 class _SelectMapPageState extends State<SelectMapPage> {
-  LatLng? selected;
+  LatLng? selectedLocation;
+  Marker? marker;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pilih Lokasi')),
+      appBar: AppBar(
+        title: const Text("Pilih Lokasi"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            onPressed: selectedLocation == null
+                ? null
+                : () => Navigator.pop(context, selectedLocation),
+          )
+        ],
+      ),
       body: GoogleMap(
         initialCameraPosition: const CameraPosition(
           target: LatLng(-6.200000, 106.816666),
-          zoom: 12,
+          zoom: 10,
         ),
-        onTap: (pos) {
-          setState(() => selected = pos);
+        onTap: (latLng) {
+          setState(() {
+            selectedLocation = latLng;
+            marker = Marker(
+              markerId: const MarkerId("lokasi"),
+              position: latLng,
+            );
+          });
         },
-        markers: selected == null
-            ? {}
-            : {
-          Marker(markerId: const MarkerId('sel'), position: selected!),
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: selected == null
-            ? null
-            : () {
-          Navigator.of(context).pop({'lat': selected!.latitude, 'lng': selected!.longitude});
-        },
-        icon: const Icon(Icons.check),
-        label: const Text('Pilih Lokasi'),
+        markers: marker != null ? {marker!} : {},
       ),
     );
   }
