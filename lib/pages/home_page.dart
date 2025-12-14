@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../database/db_helper.dart';
-import 'tambah_page.dart';
-import 'maps_page.dart';
 import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,29 +13,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  int _refreshKey = 0;
 
   @override
   Widget build(BuildContext context) {
-    Widget body;
-
-    if (_currentIndex == 0) {
-      body = _beranda();
-    } else if (_currentIndex == 1) {
-      body = TambahPage(isEdit: false, destinasi: null);
-    } else {
-      body = const MapsPage();
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Travel Wisata Lokal"),
         backgroundColor: Colors.blueAccent,
         elevation: 4,
       ),
-      body: body,
+      body: _currentIndex == 0 ? _beranda() : Container(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
+        onTap: (i) {
+          if (i == 1) {
+            Navigator.pushNamed(context, "/tambah").then((_) {
+              setState(() {
+                _currentIndex = 0;
+                _refreshKey++;
+              });
+            });
+          } else if (i == 2) {
+            Navigator.pushNamed(context, "/maps").then((_) {
+              setState(() {
+                _currentIndex = 0;
+                _refreshKey++;
+              });
+            });
+          } else {
+            setState(() => _currentIndex = i);
+          }
+        },
         selectedItemColor: Colors.blueAccent,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
@@ -51,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   // ================= BERANDA =================
   Widget _beranda() {
     return FutureBuilder<List<Map<String, dynamic>>>(
+      key: ValueKey(_refreshKey),
       future: DBHelper.instance.getAllWisata(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
