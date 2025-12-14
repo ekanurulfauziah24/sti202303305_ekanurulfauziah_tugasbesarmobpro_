@@ -72,7 +72,7 @@ class _TambahPageState extends State<TambahPage> {
       return;
     }
 
-    await DBHelper.instance.insertWisata({
+    final data = {
       'nama': namaController.text,
       'lokasi': lokasiController.text,
       'deskripsi': deskripsiController.text,
@@ -80,7 +80,13 @@ class _TambahPageState extends State<TambahPage> {
       'fotoPath': foto?.path,
       'latitude': lokasiTerpilih!.latitude,
       'longitude': lokasiTerpilih!.longitude,
-    });
+    };
+
+    if (widget.isEdit && widget.destinasi != null) {
+      await DBHelper.instance.updateWisata(widget.destinasi!['id'], data);
+    } else {
+      await DBHelper.instance.insertWisata(data);
+    }
 
     Navigator.pop(context);
   }

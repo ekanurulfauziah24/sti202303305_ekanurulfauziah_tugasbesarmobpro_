@@ -51,10 +51,11 @@ class DBHelper {
     return await db.query('wisata');
   }
 
-  Future<int> deleteWisata(int id) async {
+  Future<int> updateWisata(int id, Map<String, dynamic> data) async {
     final db = await database;
-    return await db.delete(
+    return await db.update(
       'wisata',
+      data,
       where: 'id = ?',
       whereArgs: [id],
     );
