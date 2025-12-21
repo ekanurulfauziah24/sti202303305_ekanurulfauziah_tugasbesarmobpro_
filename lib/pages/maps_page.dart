@@ -12,7 +12,6 @@ class MapsPage extends StatefulWidget {
 class _MapsPageState extends State<MapsPage> {
   GoogleMapController? _controller;
   Set<Marker> markers = {};
-  List<Map<String, dynamic>> wisataList = [];
   final TextEditingController searchController = TextEditingController();
 
   final CameraPosition _initialPosition = const CameraPosition(
@@ -40,10 +39,7 @@ class _MapsPageState extends State<MapsPage> {
       );
     }).toSet();
 
-    setState(() {
-      markers = temp;
-      wisataList = data;
-    });
+    setState(() => markers = temp);
   }
 
   void cariLokasi(String keyword) async {
@@ -68,15 +64,6 @@ class _MapsPageState extends State<MapsPage> {
         const SnackBar(content: Text("Destinasi tidak ditemukan")),
       );
     }
-  }
-
-  void goToLocation(double lat, double lng) {
-    _controller?.animateCamera(
-      CameraUpdate.newLatLngZoom(
-        LatLng(lat, lng),
-        15,
-      ),
-    );
   }
 
   @override
@@ -104,22 +91,6 @@ class _MapsPageState extends State<MapsPage> {
               initialCameraPosition: _initialPosition,
               markers: markers,
               onMapCreated: (c) => _controller = c,
-            ),
-          ),
-          SizedBox(
-            height: 200,
-            child: ListView.builder(
-              itemCount: wisataList.length,
-              itemBuilder: (context, index) {
-                final item = wisataList[index];
-                return ListTile(
-                  title: Text(item['nama']),
-                  subtitle: Text(item['lokasi']),
-                  onTap: () {
-                    goToLocation(item['latitude'], item['longitude']);
-                  },
-                );
-              },
             ),
           ),
         ],
