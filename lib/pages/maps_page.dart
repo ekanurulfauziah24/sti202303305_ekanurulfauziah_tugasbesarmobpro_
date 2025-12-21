@@ -87,10 +87,27 @@ class _MapsPageState extends State<MapsPage> {
             ),
           ),
           Expanded(
-            child: GoogleMap(
-              initialCameraPosition: _initialPosition,
-              markers: markers,
-              onMapCreated: (c) => _controller = c,
+            child: Stack(
+              children: [
+                GoogleMap(
+                  initialCameraPosition: _initialPosition,
+                  markers: markers,
+                  onMapCreated: (c) => _controller = c,
+                ),
+                Positioned(
+                  bottom: 16,
+                  right: 16,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      _controller?.animateCamera(
+                        CameraUpdate.newCameraPosition(_initialPosition),
+                      );
+                    },
+                    tooltip: 'Kembali ke titik awal',
+                    child: const Icon(Icons.home),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
