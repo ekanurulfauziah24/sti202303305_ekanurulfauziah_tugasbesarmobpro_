@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Wisata Kota Purbalingga",
       debugShowCheckedModeBanner: false,
-<<<<<<< HEAD
       theme: ThemeData(
         primaryColor: Colors.green,  // Hijau untuk alam
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -53,15 +52,6 @@ class MyApp extends StatelessWidget {
 
         // Halaman Maps
         "/maps": (context) => const MapsPage(),
-=======
-      home: HomePage(),
-      routes: {
-        "/tambah": (context) => TambahPage(
-              isEdit: false,
-              destinasi: null,
-            ),
-        "/maps": (context) => MapsPage(),
->>>>>>> f0d46ef79ff1aff2e8aa645696b3ca9589d01f94
       },
     );
   }

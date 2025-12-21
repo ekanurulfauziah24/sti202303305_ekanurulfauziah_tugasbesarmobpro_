@@ -45,11 +45,7 @@ class _HomePageState extends State<HomePage> {
             setState(() => _currentIndex = i);
           }
         },
-<<<<<<< HEAD
         selectedItemColor: Colors.green,
-=======
-        selectedItemColor: Colors.blueAccent,
->>>>>>> f0d46ef79ff1aff2e8aa645696b3ca9589d01f94
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Tambah"),

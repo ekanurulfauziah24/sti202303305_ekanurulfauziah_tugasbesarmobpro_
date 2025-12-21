@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../database/db_helper.dart';
+import '../models/destinasi.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage({super.key});
@@ -12,6 +13,7 @@ class MapsPage extends StatefulWidget {
 class _MapsPageState extends State<MapsPage> {
   GoogleMapController? _controller;
   Set<Marker> markers = {};
+  List<Destinasi> destinasiList = [];
   final TextEditingController searchController = TextEditingController();
 
   final CameraPosition _initialPosition = const CameraPosition(
@@ -22,13 +24,13 @@ class _MapsPageState extends State<MapsPage> {
   @override
   void initState() {
     super.initState();
-    loadMarkers();
+    loadData();
   }
 
-  Future<void> loadMarkers() async {
+  Future<void> loadData() async {
     final data = await DBHelper.instance.getAllWisata();
 
-    final temp = data.map((item) {
+    final tempMarkers = data.map((item) {
       return Marker(
         markerId: MarkerId(item['id'].toString()),
         position: LatLng(item['latitude'], item['longitude']),
@@ -39,7 +41,12 @@ class _MapsPageState extends State<MapsPage> {
       );
     }).toSet();
 
-    setState(() => markers = temp);
+    final tempDestinasi = data.map((item) => Destinasi.fromMap(item)).toList();
+
+    setState(() {
+      markers = tempMarkers;
+      destinasiList = tempDestinasi;
+    });
   }
 
   void cariLokasi(String keyword) async {
@@ -66,6 +73,17 @@ class _MapsPageState extends State<MapsPage> {
     }
   }
 
+  void goToDestinasi(Destinasi destinasi) {
+    if (destinasi.latitude != null && destinasi.longitude != null) {
+      _controller?.animateCamera(
+        CameraUpdate.newLatLngZoom(
+          LatLng(destinasi.latitude!, destinasi.longitude!),
+          15,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +104,18 @@ class _MapsPageState extends State<MapsPage> {
               onSubmitted: cariLokasi,
             ),
           ),
+          if (destinasiList.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: destinasiList.map((destinasi) => ActionChip(
+                  label: Text(destinasi.nama),
+                  onPressed: () => goToDestinasi(destinasi),
+                )).toList(),
+              ),
+            ),
           Expanded(
             child: Stack(
               children: [
