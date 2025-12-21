@@ -60,4 +60,9 @@ class DBHelper {
       whereArgs: [id],
     );
   }
+
+  Future<int> deleteWisata(int id) async {
+    final db = await database;
+    return await db.delete('wisata', where: 'id = ?', whereArgs: [id]);
+  }
 }

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Wisata Kota Purbalingga",
+      title: "Wisata Lokal",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.green,  // Hijau untuk alam
