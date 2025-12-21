@@ -106,7 +106,9 @@ class _TambahPageState extends State<TambahPage> {
           children: [
             // ================= HEADER =================
             Text(
-              widget.isEdit ? "Edit Destinasi Wisata" : "Tambah Destinasi Wisata",
+              widget.isEdit
+                  ? "Edit Destinasi Wisata"
+                  : "Tambah Destinasi Wisata",
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -120,7 +122,7 @@ class _TambahPageState extends State<TambahPage> {
 
             const SizedBox(height: 20),
 
-            // ================= INFORMASI =================
+            // ================= kontribusi afit =================
             _sectionCard(
               title: "Informasi Destinasi",
               icon: Icons.info,
@@ -150,7 +152,7 @@ class _TambahPageState extends State<TambahPage> {
                       if (picked != null) {
                         setState(() {
                           jamBukaController.text =
-                          "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
+                              "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
                         });
                       }
                     },
@@ -182,7 +184,7 @@ class _TambahPageState extends State<TambahPage> {
                     setState(() {
                       lokasiTerpilih = result;
                       lokasiController.text =
-                      "Lat: ${result.latitude}, Lng: ${result.longitude}";
+                          "Lat: ${result.latitude}, Lng: ${result.longitude}";
                     });
                   }
                 },
@@ -206,20 +208,20 @@ class _TambahPageState extends State<TambahPage> {
                   ),
                   child: foto != null
                       ? ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      foto!,
-                      fit: BoxFit.cover,
-                    ),
-                  )
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            foto!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
                       : const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_a_photo, size: 40),
-                      SizedBox(height: 6),
-                      Text("Tambah Foto"),
-                    ],
-                  ),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_a_photo, size: 40),
+                            SizedBox(height: 6),
+                            Text("Tambah Foto"),
+                          ],
+                        ),
                 ),
               ),
             ),
