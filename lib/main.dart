@@ -16,17 +16,17 @@ class MyApp extends StatelessWidget {
       title: "Wisata Lokal",
       debugShowCheckedModeBanner: false,
 
-      // Home tidak pakai const biar aman
+      
       home: HomePage(),
 
       routes: {
-        // Halaman Tambah
+        
         "/tambah": (context) => TambahPage(
-          isEdit: false,   // default
-          destinasi: null, // default
+          isEdit: false,   
+          destinasi: null, 
         ),
 
-        // Halaman Maps
+        
         "/maps": (context) => MapsPage(),
       },
     );
