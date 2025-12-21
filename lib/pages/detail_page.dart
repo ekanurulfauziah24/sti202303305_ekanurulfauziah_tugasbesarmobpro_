@@ -12,7 +12,7 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(destinasi['nama']),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -68,7 +68,7 @@ class DetailPage extends StatelessWidget {
                       icon: const Icon(Icons.map),
                       label: const Text("Lihat Maps"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor: Colors.green,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       onPressed: () {

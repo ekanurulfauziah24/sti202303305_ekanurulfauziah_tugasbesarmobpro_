@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Travel Wisata Lokal"),
-        backgroundColor: Colors.blueAccent,
+        title: const Text("Wisata Kota Purbalingga"),
+        backgroundColor: Colors.green,
         elevation: 4,
       ),
       body: _currentIndex == 0 ? _beranda() : Container(),
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
             setState(() => _currentIndex = i);
           }
         },
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: Colors.green,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Tambah"),
